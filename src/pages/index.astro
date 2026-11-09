@@ -1,0 +1,34 @@
+---
+import Countdown from '../components/countdown.astro';
+import Venue from '../components/venue.astro';
+import Info from '../components/info.astro';
+import RSVP from '../components/rsvp.astro';
+import Welcome from '../components/welcome.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Isa & Hafizah | Wedding Invitation</title>
+  </head>
+	<main class="w-full h-screen snap-y snap-mandatory overflow-y-scroll">
+		<section class="min-h-dvh snap-start">
+			<Welcome />
+		</section>
+		<section class="min-h-dvh snap-start">
+			<Info />
+		</section>
+		<section class="min-h-dvh snap-start">
+			<Countdown />
+		</section>
+		<section class="min-h-dvh snap-start">
+			<Venue />
+		</section>
+		<section class="min-h-dvh snap-start">
+			<RSVP />
+		</section>
+	</main>
+</html>

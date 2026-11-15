@@ -18,32 +18,39 @@ import '../styles/global.css';
   title="Isa & Hafizah | Wedding Invitation"
   description="You are warmly invited to celebrate the wedding of Isa Lias and Hafizah."/>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Isa & Hafizah | Wedding Invitation</title>
   </head>
-  <body>
-   <main class="w-full h-dvh overflow-y-auto snap-y snap-proximity scroll-smooth">
-      <section class="min-h-dvh snap-start">
-        <Invitation />
-      </section>
-      <section class="min-h-dvh snap-start">
-        <Wording />
-      </section>
-      <section class="min-h-dvh snap-start">
-        <Details />
-      </section>
-      <section class="min-h-dvh snap-start">
-        <Countdown />
-      </section>
-      <section class="min-h-dvh snap-start">
-        <Directions />
-      </section>
-      <section class="min-h-dvh snap-start">
-        <RSVP />
-      </section>
-    </main>
+  <body class="h-dvh overflow-hidden">
+  <main class="w-full h-dvh overflow-y-auto overflow-x-hidden snap-y snap-proximity scroll-smooth overscroll-y-contain">
 
-    <BottomNav />
-    <MusicPlayer />
-  </body>
+    <section class="min-h-dvh snap-start">
+      <Invitation />
+    </section>
+
+    <section class="min-h-dvh snap-start">
+      <Wording />
+    </section>
+
+    <section class="min-h-dvh snap-start">
+      <Details />
+    </section>
+
+    <section class="min-h-dvh snap-start">
+      <Countdown />
+    </section>
+
+    <section class="min-h-dvh snap-start">
+      <Directions />
+    </section>
+
+    <section class="min-h-dvh snap-start">
+      <RSVP />
+    </section>
+
+  </main>
+
+  <BottomNav />
+  <MusicPlayer />
+</body>
 </html>

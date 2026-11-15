@@ -4,7 +4,23 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+ @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 @import "tailwindcss";
+
+.font-wedding {
+  font-family: 'Great Vibes', cursive;
+}
+
+
+
+:root {
+  --background: #F7F0E3;
+  --primary: #242222;
+  --gold: #C69A55;
+  --coral: #C94D35;
+  --jade: #526C55;
+  --brown: #79533D;
+}
 
 html {
   scroll-behavior: smooth;
@@ -12,7 +28,12 @@ html {
 
 body {
   margin: 0;
-  background: var(--cream);
-  color: var(--deep-teal);
+  background-color: var(--background);
+  color: var(--primary);
   font-family: Georgia, serif;
+}
+@media (max-width: 767px) {
+  main > section {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+  }
 }

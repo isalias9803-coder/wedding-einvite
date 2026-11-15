@@ -1,0 +1,106 @@
+
+---
+const parents = [
+  "Lias Bin Musa & Norita Lim",
+  "Matassan Bin Maidin & Mahadi Binti Hakim",
+];
+---
+
+<section
+  id="invitation-wording"
+  class="w-full min-h-dvh snap-start flex items-center justify-center bg-[#F7F0E3] px-5 py-10 lg:px-8 lg:py-8"
+>
+  <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+
+    <!-- Bismillah -->
+    <p
+      lang="ar"
+      dir="rtl"
+      class="mb-1 text-xl leading-relaxed text-[#C69A55] sm:mb-3 sm:text-3xl"
+    >
+      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+    </p>
+
+    <p class="mb-5 text-[10px] italic tracking-wide text-[#79533D] sm:mb-8 sm:text-sm">
+      In the Name of Allah, the Most Gracious, the Most Merciful
+    </p>
+
+    <!-- Divider -->
+    <div class="mb-5 flex w-full max-w-xs items-center gap-3 sm:mb-8">
+      <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+      <span class="text-xs text-[#C69A55]">✦</span>
+      <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+    </div>
+
+    <!-- Opening -->
+    <h2 class="mb-2 font-serif text-xl font-medium text-[#242222] sm:mb-4 sm:text-3xl">
+      Together with gratitude
+    </h2>
+
+    <p class="mb-4 text-xs leading-6 text-[#79533D] sm:mb-7 sm:text-base sm:leading-7">
+      With hearts filled with gratitude to Almighty Allah,
+    </p>
+
+    <!-- Parents -->
+    <div class="mb-5 space-y-3 sm:mb-8 sm:space-y-5">
+      {parents.map((parent) => (
+        <p class="font-serif text-base leading-snug text-[#79533D] sm:text-2xl">
+          {parent}
+        </p>
+      ))}
+    </div>
+
+    <!-- Invitation -->
+    <p class="mb-5 max-w-xl text-xs leading-6 text-[#242222] sm:mb-8 sm:text-base sm:leading-9">
+      Cordially invite you and your family to celebrate the wedding
+      of their beloved children,
+    </p>
+
+    <!-- Couple -->
+    <div class="mb-6 space-y-0 sm:mb-9">
+
+  <h3
+    class="font-wedding text-5xl font-normal leading-tight text-[#C94D35] sm:text-6xl"
+  >
+    Isa
+  </h3>
+
+  <p class="font-serif text-base italic text-[#79533D] sm:text-lg">
+    &
+  </p>
+
+  <h3
+    class="font-wedding text-5xl font-normal leading-tight text-[#C94D35] sm:text-6xl"
+  >
+    Hafizah
+  </h3>
+
+</div>
+
+    <!-- Closing message -->
+    <p class="mb-5 max-w-xl text-xs leading-6 text-[#242222] sm:mb-8 sm:text-base sm:leading-9">
+      Your presence and prayers would make this joyous occasion
+      even more meaningful as we celebrate the beginning of their
+      new journey together.
+    </p>
+
+    <!-- Closing -->
+    <div class="space-y-1">
+      <p class="font-serif text-sm italic text-[#79533D] sm:text-base">
+        With love and warm regards,
+      </p>
+
+      <p class="font-serif text-base font-medium text-[#242222] sm:text-lg">
+        The Families
+      </p>
+    </div>
+
+    <!-- Bottom divider -->
+    <div class="mt-6 flex w-full max-w-xs items-center gap-3 sm:mt-10">
+      <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+      <span class="text-xs text-[#C69A55]">✦</span>
+      <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+    </div>
+
+  </div>
+</section>

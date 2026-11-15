@@ -1,8 +1,5 @@
 ---
-import Countdown from '../components/countdown.astro';
-import Venue from '../components/venue.astro';
-import Info from '../components/info.astro';
-import RSVP from '../components/rsvp.astro';
+import BaseHead from '../components/BaseHead.astro';
 import Welcome from '../components/welcome.astro';
 import '../styles/global.css';
 ---
@@ -10,25 +7,16 @@ import '../styles/global.css';
 <!doctype html>
 <html lang="en">
 	<head>
+				<BaseHead
+  title="Isa & Hafizah | Wedding Invitation"
+  description="You are warmly invited to celebrate the wedding of Isa Lias and Hafizah."/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Isa & Hafizah | Wedding Invitation</title>
   </head>
-	<main class="w-full h-screen snap-y snap-mandatory overflow-y-scroll">
-		<section class="min-h-dvh snap-start">
+	<main class="w-full h-screen">
+		<section class="min-h-dvh">
 			<Welcome />
-		</section>
-		<section class="min-h-dvh snap-start">
-			<Info />
-		</section>
-		<section class="min-h-dvh snap-start">
-			<Countdown />
-		</section>
-		<section class="min-h-dvh snap-start">
-			<Venue />
-		</section>
-		<section class="min-h-dvh snap-start">
-			<RSVP />
 		</section>
 	</main>
 </html>

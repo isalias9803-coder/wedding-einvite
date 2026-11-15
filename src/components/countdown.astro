@@ -1,5 +1,99 @@
-<div class="w-full h-screen flex items-center justify-center">
-    <h1 class="text-6xl font-bold text-center">
-    Countdown
-    </h1>
-</div>
+
+---
+---
+
+<section
+  id="countdown"
+  class="w-full min-h-dvh snap-start flex flex-col items-center justify-center px-5 py-12"
+>
+  <!-- Heading -->
+  <p class="mb-3 text-xs tracking-[0.3em] text-[#C69A55]">
+    THE COUNTDOWN BEGINS
+  </p>
+
+  <h2 class="mb-3 font-serif text-4xl text-[#79533D] text-center">
+    Counting Down
+  </h2>
+
+  <p class="mb-10 text-sm italic text-[#79533D] text-center">
+    Until Isa & Hafizah's Big Day
+  </p>
+
+  <!-- Countdown Display -->
+  <div class="grid w-full max-w-md grid-cols-4 gap-2 sm:gap-4">
+    {["Days", "Hours", "Minutes", "Seconds"].map((unit) => (
+      <div class="flex flex-col items-center rounded-md border border-[#C69A55]/50 px-2 py-5">
+        <span
+          data-countdown={unit.toLowerCase()}
+          class="font-serif text-3xl text-[#C94D35] sm:text-4xl"
+        >
+          00
+        </span>
+        <span class="mt-2 text-[9px] tracking-widest text-[#79533D] sm:text-xs">
+          {unit.toUpperCase()}
+        </span>
+      </div>
+    ))}
+  </div>
+
+  <!-- Wedding Date -->
+  <div class="mt-10 text-center">
+    <p class="font-serif text-xl text-[#242222]">
+      27 December 2026
+    </p>
+    <p class="mt-1 text-sm italic text-[#79533D]">
+      Sunday · 6:30 PM
+    </p>
+  </div>
+
+  <!-- Decorative Divider -->
+  <div class="mt-8 flex w-full max-w-xs items-center gap-3">
+    <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+    <span class="text-xs text-[#C69A55]">✦</span>
+    <span class="h-px flex-1 bg-[#C69A55]/60"></span>
+  </div>
+
+  <p class="mt-6 text-xs italic text-[#79533D] text-center">
+    A day filled with love and beautiful memories.
+  </p>
+</section>
+
+<script>
+  const targetDate = new Date("2026-12-27T18:30:00+08:00").getTime();
+
+  const updateCountdown = () => {
+    const now = Date.now();
+    const difference = targetDate - now;
+
+    const elements = {
+      days: document.querySelector('[data-countdown="days"]'),
+      hours: document.querySelector('[data-countdown="hours"]'),
+      minutes: document.querySelector('[data-countdown="minutes"]'),
+      seconds: document.querySelector('[data-countdown="seconds"]'),
+    };
+
+    if (difference <= 0) {
+      Object.values(elements).forEach((element) => {
+        if (element) element.textContent = "00";
+      });
+      return;
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / (1000 * 60)) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    if (elements.days) elements.days.textContent = String(days);
+    if (elements.hours) elements.hours.textContent = String(hours).padStart(2, "0");
+    if (elements.minutes) elements.minutes.textContent = String(minutes).padStart(2, "0");
+    if (elements.seconds) elements.seconds.textContent = String(seconds).padStart(2, "0");
+  };
+
+  updateCountdown();
+  const countdownInterval = window.setInterval(updateCountdown, 1000);
+
+  document.addEventListener("astro:before-swap", () => {
+    window.clearInterval(countdownInterval);
+  }, { once: true });
+</script>

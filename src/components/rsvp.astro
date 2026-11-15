@@ -1,5 +1,402 @@
-<div class="w-full h-screen flex items-center justify-center">
-    <h1 class="text-6xl font-bold text-center">
+
+---
+const scriptUrl =
+  "https://script.google.com/macros/s/AKfycbwSQgNGvmETRWO3E3L0roPBmFWgu4mmJQ-K0-mgWuxeG9yZOp9hyV3Zfa_FvpFKDy0IMQ/exec";
+---
+
+<section
+  id="rsvp"
+  class="w-full min-h-dvh snap-start flex flex-col items-center justify-center px-5 py-12"
+>
+  <p class="mb-3 text-xs tracking-[0.3em] text-[#C69A55]">
+    WE WOULD LOVE TO HEAR FROM YOU
+  </p>
+
+  <h2 class="mb-3 text-center font-serif text-4xl text-[#79533D]">
     RSVP
-    </h1>
+  </h2>
+
+  <p class="mb-8 max-w-sm text-center text-sm leading-relaxed text-[#79533D]">
+    Kindly let us know whether you will be joining us in celebrating our special day.
+  </p>
+
+  <form
+    id="rsvp-form"
+    class="w-full max-w-md space-y-5 border border-[#C69A55]/60 px-6 py-8"
+    action={scriptUrl}
+    method="POST"
+    target="rsvp-response"
+  >
+    <div>
+      <label for="name" class="mb-2 block text-xs tracking-widest text-[#79533D]">
+        FULL NAME
+      </label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        maxlength="100"
+        placeholder="Enter your full name"
+        class="w-full border-b border-[#C69A55]/60 bg-transparent px-1 py-3 text-sm text-[#242222] outline-none focus:border-[#C94D35]"
+      />
+    </div>
+
+    <div>
+      <label for="attendance" class="mb-2 block text-xs tracking-widest text-[#79533D]">
+        WILL YOU BE ATTENDING?
+      </label>
+      <select
+        id="attendance"
+        name="attendance"
+        required
+        class="w-full border-b border-[#C69A55]/60 bg-transparent px-1 py-3 text-sm text-[#242222] outline-none focus:border-[#C94D35]"
+      >
+        <option value="">Please select</option>
+        <option value="Attending">Joyfully accepts</option>
+        <option value="Not attending">Regretfully declines</option>
+      </select>
+    </div>
+
+    <div id="guest-count-wrapper">
+      <label for="guestCount" class="mb-2 block text-xs tracking-widest text-[#79533D]">
+        NUMBER OF GUESTS
+      </label>
+      <select
+        id="guestCount"
+        name="guestCount"
+        required
+        class="w-full border-b border-[#C69A55]/60 bg-transparent px-1 py-3 text-sm text-[#242222] outline-none focus:border-[#C94D35]"
+      >
+        <option value="1">1 Guest</option>
+        <option value="2">2 Guests</option>
+      </select>
+      <p class="mt-2 text-xs italic text-[#79533D]">
+        Maximum of 2 guests per response, including yourself.
+      </p>
+    </div>
+
+    <div>
+      <label for="contactNumber" class="mb-2 block text-xs tracking-widest text-[#79533D]">
+        CONTACT NUMBER (OPTIONAL)
+      </label>
+      <input
+        id="contactNumber"
+        name="contactNumber"
+        type="tel"
+        maxlength="30"
+        placeholder="Your contact number"
+        class="w-full border-b border-[#C69A55]/60 bg-transparent px-1 py-3 text-sm text-[#242222] outline-none focus:border-[#C94D35]"
+      />
+    </div>
+
+    <button
+      id="submit-button"
+      type="submit"
+      class="mt-4 w-full bg-[#79533D] px-8 py-4 text-xs tracking-[0.2em] text-[#F7F0E3] transition hover:bg-[#C94D35]"
+    >
+      SUBMIT RSVP
+    </button>
+
+    <p
+      id="rsvp-message"
+      class="hidden text-center text-sm"
+      role="status"
+      aria-live="polite"
+    ></p>
+  </form>
+
+<!-- Custom Thank You Popup -->
+<div
+  id="thank-you-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-[#242222]/60 px-5 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="thank-you-title"
+>
+  <div
+  class="thank-you-card relative w-full max-w-sm border border-[#C69A55] bg-[#F7F0E3] px-7 py-12 text-center shadow-2xl"
+>
+  <!-- Peranakan floral corner decorations -->
+  <span class="floral-corner floral-top-left" aria-hidden="true">✿</span>
+  <span class="floral-corner floral-top-right" aria-hidden="true">✿</span>
+  <span class="floral-corner floral-bottom-left" aria-hidden="true">✿</span>
+  <span class="floral-corner floral-bottom-right" aria-hidden="true">✿</span>
+    <!-- Decorative top divider -->
+    <div class="mb-5 flex items-center justify-center gap-3">
+      <span class="h-px w-12 bg-[#C69A55]"></span>
+      <span class="text-2xl text-[#C94D35]">✿</span>
+      <span class="h-px w-12 bg-[#C69A55]"></span>
+    </div>
+
+    <p class="mb-3 text-xs tracking-[0.3em] text-[#C69A55]">
+      ISA & HAFIZAH
+    </p>
+
+    <h2
+      id="thank-you-title"
+      class="mb-4 font-serif text-4xl text-[#79533D]"
+    >
+      Thank You!
+    </h2>
+
+    <p class="mb-5 text-sm leading-relaxed text-[#79533D]">
+      Your RSVP means so much to us.
+      Thank you for being part of our special celebration.
+    </p>
+
+    <p class="mb-7 font-serif text-xl italic text-[#C94D35]">
+      We look forward to seeing you!
+    </p>
+
+    <!-- Decorative bottom divider -->
+    <div class="mb-7 flex items-center justify-center gap-3">
+      <span class="h-px w-12 bg-[#C69A55]"></span>
+      <span class="text-[#C69A55]">✦</span>
+      <span class="h-px w-12 bg-[#C69A55]"></span>
+    </div>
+
+    <button
+      id="close-thank-you"
+      type="button"
+      class="w-full bg-[#79533D] px-8 py-4 text-xs tracking-[0.2em] text-[#F7F0E3] transition hover:bg-[#C94D35]"
+    >
+      CLOSE
+    </button>
+  </div>
 </div>
+
+  <iframe
+  id="rsvp-response"
+  name="rsvp-response"
+  title="RSVP submission response"
+  class="hidden"
+></iframe>
+
+  <p class="mt-8 text-center text-xs italic text-[#79533D]">
+    Thank you for being part of our celebration.
+  </p>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#rsvp-form");
+  const attendance =
+    document.querySelector<HTMLSelectElement>("#attendance");
+  const guestCount =
+    document.querySelector<HTMLSelectElement>("#guestCount");
+  const guestWrapper =
+    document.querySelector<HTMLDivElement>("#guest-count-wrapper");
+  const submitButton =
+    document.querySelector<HTMLButtonElement>("#submit-button");
+  const message =
+    document.querySelector<HTMLParagraphElement>("#rsvp-message");
+  const responseFrame =
+    document.querySelector<HTMLIFrameElement>("#rsvp-response");
+const thankYouModal =
+  document.querySelector<HTMLDivElement>("#thank-you-modal");
+
+const closeThankYou =
+  document.querySelector<HTMLButtonElement>("#close-thank-you");
+
+
+  let isSubmitting = false;
+
+  // Show or hide guest count depending on attendance
+  attendance?.addEventListener("change", () => {
+    const isAttending = attendance.value === "Attending";
+
+    guestWrapper?.classList.toggle("hidden", !isAttending);
+
+    if (guestCount) {
+      guestCount.required = isAttending;
+      guestCount.disabled = !isAttending;
+      guestCount.value = isAttending ? "1" : "0";
+    }
+  });
+
+  // Handle RSVP submission
+  form?.addEventListener("submit", (event) => {
+    if (!form.reportValidity()) {
+      event.preventDefault();
+      return;
+    }
+
+    isSubmitting = true;
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "SUBMITTING...";
+    }
+
+    if (message) {
+      message.textContent = "Submitting your RSVP...";
+      message.classList.remove("hidden");
+    }
+  });
+
+  // Detect response iframe loading
+  responseFrame?.addEventListener("load", () => {
+    if (!isSubmitting) return;
+
+    isSubmitting = false;
+
+    // Display custom thank-you popup
+thankYouModal?.classList.remove("hidden");
+thankYouModal?.classList.add("flex");
+
+    // Reset form
+    form?.reset();
+
+    // Restore guest count
+    if (guestCount) {
+      guestCount.disabled = false;
+      guestCount.required = true;
+      guestCount.value = "1";
+    }
+
+    guestWrapper?.classList.remove("hidden");
+
+    // Restore submit button
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "SUBMIT RSVP";
+    }
+
+    message?.classList.add("hidden");
+
+    // Return to welcome section
+    document.querySelector("main")?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+
+  // Close popup and return to welcome section
+function closeThankYouPopup() {
+  thankYouModal?.classList.add("hidden");
+  thankYouModal?.classList.remove("flex");
+
+  document.querySelector("main")?.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+// Close button
+closeThankYou?.addEventListener("click", closeThankYouPopup);
+
+// Close when clicking outside the popup
+thankYouModal?.addEventListener("click", (event) => {
+  if (event.target === thankYouModal) {
+    closeThankYouPopup();
+  }
+});
+
+// Close using Escape key
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape" &&
+    thankYouModal?.classList.contains("flex")
+  ) {
+    closeThankYouPopup();
+  }
+});
+</script>
+
+<style>
+
+/* =========================================
+   THANK YOU POPUP - PERANAKAN DECORATIONS
+========================================= */
+
+/* Fade in the popup background */
+#thank-you-modal.flex {
+  animation: modalFadeIn 0.45s ease-out both;
+}
+
+/* Gently lift the popup into view */
+.thank-you-card {
+  animation: cardEntrance 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Floral corner styling */
+.floral-corner {
+  position: absolute;
+  z-index: 1;
+  color: #C94D35;
+  font-size: 27px;
+  line-height: 1;
+  opacity: 0.85;
+  animation: floralFloat 3s ease-in-out infinite;
+}
+
+.floral-top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.floral-top-right {
+  top: 12px;
+  right: 12px;
+  color: #C69A55;
+  animation-delay: 0.5s;
+}
+
+.floral-bottom-left {
+  bottom: 12px;
+  left: 12px;
+  color: #C69A55;
+  animation-delay: 1s;
+}
+
+.floral-bottom-right {
+  bottom: 12px;
+  right: 12px;
+  animation-delay: 1.5s;
+}
+
+/* Animation: background fade */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animation: popup entrance */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animation: subtle floral movement */
+@keyframes floralFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(8deg);
+  }
+}
+
+/* Accessibility: respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #thank-you-modal.flex,
+  .thank-you-card,
+  .floral-corner {
+    animation: none;
+  }
+}
+
+</style>

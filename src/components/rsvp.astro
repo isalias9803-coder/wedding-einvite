@@ -21,12 +21,17 @@ const scriptUrl =
   </p>
 
   <form
-    id="rsvp-form"
-    class="w-full max-w-md space-y-5 border border-[#C69A55]/60 px-6 py-8"
-    action={scriptUrl}
-    method="POST"
-    target="rsvp-response"
-  >
+  id="rsvp-form"
+  class="w-full max-w-md space-y-5 border border-[#C69A55]/60 px-6 py-8"
+  action={scriptUrl}
+  method="POST"
+  target="rsvp-response"
+>
+  <input
+    type="hidden"
+    id="requestId"
+    name="requestId"
+  />
     <div>
       <label for="name" class="mb-2 block text-xs tracking-widest text-[#79533D]">
         FULL NAME
@@ -203,75 +208,58 @@ const scriptUrl =
 </section>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>("#rsvp-form");
-  const attendance =
-    document.querySelector<HTMLSelectElement>("#attendance");
-  const guestCount =
-    document.querySelector<HTMLSelectElement>("#guestCount");
-  const guestWrapper =
-    document.querySelector<HTMLDivElement>("#guest-count-wrapper");
-  const submitButton =
-    document.querySelector<HTMLButtonElement>("#submit-button");
-  const message =
-    document.querySelector<HTMLParagraphElement>("#rsvp-message");
-  const responseFrame =
-    document.querySelector<HTMLIFrameElement>("#rsvp-response");
-const thankYouModal =
-  document.querySelector<HTMLDivElement>("#thank-you-modal");
+  
+const form = document.querySelector<HTMLFormElement>("#rsvp-form");
+const attendance = document.querySelector<HTMLSelectElement>("#attendance");
+const guestCount = document.querySelector<HTMLSelectElement>("#guestCount");
+const guestWrapper = document.querySelector<HTMLDivElement>("#guest-count-wrapper");
+const submitButton = document.querySelector<HTMLButtonElement>("#submit-button");
+const message = document.querySelector<HTMLParagraphElement>("#rsvp-message");
+const responseFrame = document.querySelector<HTMLIFrameElement>("#rsvp-response");
+const thankYouModal = document.querySelector<HTMLDivElement>("#thank-you-modal");
+const closeThankYou = document.querySelector<HTMLButtonElement>("#close-thank-you");
+const requestIdInput = document.querySelector<HTMLInputElement>("#requestId");
 
-const closeThankYou =
-  document.querySelector<HTMLButtonElement>("#close-thank-you");
+let isSubmitting = false;
+let activeRequestId = "";
 
+// Show or hide guest count depending on attendance.
+attendance?.addEventListener("change", () => {
+  const isAttending = attendance.value === "Attending";
 
-  let isSubmitting = false;
+  guestWrapper?.classList.toggle("hidden", !isAttending);
 
-  // Show or hide guest count depending on attendance
-  attendance?.addEventListener("change", () => {
-    const isAttending = attendance.value === "Attending";
+  if (guestCount) {
+    guestCount.required = isAttending;
+    guestCount.disabled = !isAttending;
+    guestCount.value = isAttending ? "1" : "0";
+  }
+});
 
-    guestWrapper?.classList.toggle("hidden", !isAttending);
+// Listen for the actual Apps Script response.
+window.addEventListener("message", (event: MessageEvent) => {
+  const data = event.data;
 
-    if (guestCount) {
-      guestCount.required = isAttending;
-      guestCount.disabled = !isAttending;
-      guestCount.value = isAttending ? "1" : "0";
-    }
-  });
+  if (
+    !data ||
+    data.type !== "ISA_HAFIZAH_RSVP_RESULT" ||
+    !data.payload ||
+    data.payload.requestId !== activeRequestId ||
+    !isSubmitting
+  ) {
+    return;
+  }
 
-  // Handle RSVP submission
-  form?.addEventListener("submit", (event) => {
-    if (!form.reportValidity()) {
-      event.preventDefault();
-      return;
-    }
+  isSubmitting = false;
+  activeRequestId = "";
 
-    isSubmitting = true;
+  if (data.payload.success === true) {
+    // Only show the popup after confirmed success.
+    thankYouModal?.classList.remove("hidden");
+    thankYouModal?.classList.add("flex");
 
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = "SUBMITTING...";
-    }
-
-    if (message) {
-      message.textContent = "Submitting your RSVP...";
-      message.classList.remove("hidden");
-    }
-  });
-
-  // Detect response iframe loading
-  responseFrame?.addEventListener("load", () => {
-    if (!isSubmitting) return;
-
-    isSubmitting = false;
-
-    // Display custom thank-you popup
-thankYouModal?.classList.remove("hidden");
-thankYouModal?.classList.add("flex");
-
-    // Reset form
     form?.reset();
 
-    // Restore guest count
     if (guestCount) {
       guestCount.disabled = false;
       guestCount.required = true;
@@ -279,44 +267,82 @@ thankYouModal?.classList.add("flex");
     }
 
     guestWrapper?.classList.remove("hidden");
-
-    // Restore submit button
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.textContent = "SUBMIT RSVP";
-    }
-
     message?.classList.add("hidden");
 
-    // Return to welcome section
     document.querySelector("main")?.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
-  });
 
-  // Close popup and return to welcome section
+  } else {
+    // Keep the guest's entries so they can correct or retry.
+    if (message) {
+      message.textContent =
+        data.payload.message || "Your RSVP could not be saved. Please try again.";
+      message.classList.remove("hidden");
+      message.classList.add("text-[#C94D35]");
+    }
+  }
+
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = "SUBMIT RSVP";
+  }
+});
+
+// Submit RSVP.
+form?.addEventListener("submit", (event) => {
+  if (!form.reportValidity()) {
+    event.preventDefault();
+    return;
+  }
+
+  if (isSubmitting) {
+    event.preventDefault();
+    return;
+  }
+
+  activeRequestId =
+    typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+  if (requestIdInput) {
+    requestIdInput.value = activeRequestId;
+  }
+
+  isSubmitting = true;
+
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "SUBMITTING...";
+  }
+
+  if (message) {
+    message.textContent = "Submitting your RSVP...";
+    message.classList.remove("hidden", "text-[#C94D35]");
+  }
+});
+
+// Close popup and return to welcome section.
 function closeThankYouPopup() {
   thankYouModal?.classList.add("hidden");
   thankYouModal?.classList.remove("flex");
 
   document.querySelector("main")?.scrollTo({
     top: 0,
-    behavior: "smooth",
+    behavior: "smooth"
   });
 }
 
-// Close button
 closeThankYou?.addEventListener("click", closeThankYouPopup);
 
-// Close when clicking outside the popup
 thankYouModal?.addEventListener("click", (event) => {
   if (event.target === thankYouModal) {
     closeThankYouPopup();
   }
 });
 
-// Close using Escape key
 document.addEventListener("keydown", (event) => {
   if (
     event.key === "Escape" &&
@@ -325,6 +351,7 @@ document.addEventListener("keydown", (event) => {
     closeThankYouPopup();
   }
 });
+
 </script>
 
 <style>

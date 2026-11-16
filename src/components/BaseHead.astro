@@ -18,10 +18,8 @@ const defaultImage = new URL(
   Astro.site
 );
 
-// Use a supplied image if available, otherwise use the default
-const ogImage = image
-  ? new URL(image.src, Astro.site)
-  : defaultImage;
+// Always use the WhatsApp preview image
+const ogImage = defaultImage;
 ---
 
 <!-- Global Metadata -->

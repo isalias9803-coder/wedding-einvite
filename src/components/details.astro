@@ -57,23 +57,56 @@
 
   <!-- Wedding Theme -->
    
-  <div class="mt-2 w-full max-w-sm border border-[#C69A55]/60 px-6 py-5 text-center">
-  <p class="mb-2 text-xs tracking-[0.2em] text-[#C69A55]">
-    WEDDING THEME
-  </p>
+  
+  <!-- Wedding Theme -->
+  <div class="mt-2 w-full max-w-sm border border-[#C69A55]/60 px-4 py-5 text-center">
 
-  <img
-  src={`${import.meta.env.BASE_URL}/images/kebaya.png`}
-  alt="Traditional Kebaya blouse illustration"
-  class="mx-auto mb-3 h-20 w-20 object-contain"
-/>
+    <p class="mb-5 text-xs tracking-[0.2em] text-[#C69A55]">
+      WEDDING THEME
+    </p>
 
-  <h3 class="font-serif text-3xl text-[#C94D35]">
-    Kebaya
-  </h3>
+    <div class="grid grid-cols-2 gap-4">
 
-  <p class="mt-2 text-sm italic text-[#79533D]">
-    Dress to celebrate in traditional elegance
-  </p>
-</div>
+      <!-- Ladies -->
+      <div class="flex flex-col items-center">
+        <img
+          src={`${import.meta.env.BASE_URL}/images/kebaya.png`}
+          alt="Traditional Kebaya attire"
+          class="mb-3 h-28 w-full object-contain"
+        />
+
+        <h3 class="font-serif text-2xl text-[#C94D35]">
+          Ladies
+        </h3>
+
+        <p class="mt-1 text-xs text-[#79533D]">
+          Kebaya / Traditional Attire
+        </p>
+      </div>
+
+      <!-- Gentlemen -->
+      <div class="flex flex-col items-center">
+        <img
+          src={`${import.meta.env.BASE_URL}/images/baju-melayu.png`}
+          alt="Traditional Baju Melayu with songket sampin"
+          class="mb-3 h-28 w-full object-contain"
+        />
+
+        <h3 class="font-serif text-2xl text-[#C94D35]">
+          Gentlemen
+        </h3>
+
+        <p class="mt-1 text-xs text-[#79533D]">
+          Baju Melayu / Traditional Attire
+        </p>
+      </div>
+
+    </div>
+
+    <p class="mt-5 text-sm italic text-[#79533D]">
+      Dress to celebrate in traditional elegance
+    </p>
+
+  </div>
+
 </section>

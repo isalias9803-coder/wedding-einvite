@@ -28,7 +28,6 @@
 ></audio>
 
 <style>
-  
 .music-player {
   position: fixed;
   z-index: 50;
@@ -173,7 +172,6 @@
     transition: none;
   }
 }
-
 </style>
 
 <script>
@@ -200,12 +198,13 @@
       );
     };
 
+    // Play / Pause button
     button.addEventListener("click", async () => {
       if (audio.paused) {
         try {
           await audio.play();
-        } catch {
-          console.error("Unable to play wedding music.");
+        } catch (error) {
+          console.error("Unable to play wedding music:", error);
         }
       } else {
         audio.pause();
@@ -214,10 +213,25 @@
       updateButton();
     });
 
+    // Keep the player UI synchronized with audio state
     audio.addEventListener("play", updateButton);
     audio.addEventListener("pause", updateButton);
     audio.addEventListener("ended", updateButton);
 
+    // Automatically pause when the browser page becomes hidden.
+    // This commonly happens when the phone is locked or another app is opened.
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        audio.pause();
+      }
+    });
+
+    // Pause when navigating away or unloading the page.
+    window.addEventListener("pagehide", () => {
+      audio.pause();
+    });
+
+    // Attempt autoplay on initial page load (subject to browser restrictions).
     audio.play().catch(() => updateButton());
   }
 </script>

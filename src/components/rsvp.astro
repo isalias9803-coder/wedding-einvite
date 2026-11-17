@@ -20,7 +20,27 @@ const scriptUrl =
     Kindly let us know whether you will be joining us in celebrating our special day.
   </p>
 
-  <form
+  <p
+  id="rsvp-deadline-notice"
+  class="mb-5 max-w-sm text-center text-xs leading-relaxed text-[#79533D]"
+>
+  Kindly confirm your attendance by
+  <span class="font-semibold text-[#C94D35]">6 December 2026</span>.
+</p>
+
+<div
+  id="rsvp-closed-message"
+  class="hidden w-full max-w-md border border-[#C69A55]/60 px-6 py-8 text-center"
+  role="status"
+  aria-live="polite"
+>
+  <p class="mb-3 font-serif text-2xl text-[#79533D]">RSVP Closed</p>
+  <p class="text-sm leading-relaxed text-[#79533D]">
+    The RSVP period has now closed. Thank you for your response and for being part of our celebration.
+  </p>
+</div>
+
+<form
   id="rsvp-form"
   class="w-full max-w-md space-y-5 border border-[#C69A55]/60 px-6 py-8"
   action={scriptUrl}
@@ -219,6 +239,33 @@ const responseFrame = document.querySelector<HTMLIFrameElement>("#rsvp-response"
 const thankYouModal = document.querySelector<HTMLDivElement>("#thank-you-modal");
 const closeThankYou = document.querySelector<HTMLButtonElement>("#close-thank-you");
 const requestIdInput = document.querySelector<HTMLInputElement>("#requestId");
+const deadlineNotice = document.querySelector<HTMLParagraphElement>("#rsvp-deadline-notice");
+const closedMessage = document.querySelector<HTMLDivElement>("#rsvp-closed-message");
+
+const rsvpDeadline = "2026-12-06";
+
+function isRsvpOpen() {
+  // Use Malaysia time so the deadline is consistent for all guests.
+  const malaysiaDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kuala_Lumpur",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
+  return malaysiaDate <= rsvpDeadline;
+}
+
+function updateRsvpAvailability() {
+  const isOpen = isRsvpOpen();
+
+  form?.classList.toggle("hidden", !isOpen);
+  deadlineNotice?.classList.toggle("hidden", !isOpen);
+  closedMessage?.classList.toggle("hidden", isOpen);
+}
+
+// Check the deadline when the page loads.
+updateRsvpAvailability();
 
 let isSubmitting = false;
 let activeRequestId = "";
@@ -292,6 +339,13 @@ window.addEventListener("message", (event: MessageEvent) => {
 
 // Submit RSVP.
 form?.addEventListener("submit", (event) => {
+  // Recheck at submission time in case the page was left open past the deadline.
+  if (!isRsvpOpen()) {
+    event.preventDefault();
+    updateRsvpAvailability();
+    return;
+  }
+
   if (!form.reportValidity()) {
     event.preventDefault();
     return;
